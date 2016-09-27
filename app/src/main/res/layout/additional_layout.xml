@@ -7,47 +7,146 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:layout_weight="0.5">
-        <Button
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="отправить файл"
+            android:layout_weight="1">
 
-            />
-        <Button
+            <ImageButton
+                android:id="@+id/file"
+                android:background="@null"
+                android:layout_centerHorizontal="true"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/documents"
+                />
+            <TextView
+                android:layout_below="@+id/file"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="файл"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="отправить фото"/>
-        <Button
+            android:layout_weight="1">
+            <ImageButton
+                android:background="@null"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/galery"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/gallery"
+                />
+            <TextView
+                android:layout_below="@+id/galery"
+                android:layout_width="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_height="wrap_content"
+                android:text="галерея"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="сделать фото"/>
+            android:layout_weight="1">
+
+            <ImageButton
+                android:id="@+id/photo"
+                android:background="@null"
+                android:layout_centerHorizontal="true"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/photocamera"
+                />
+            <TextView
+                android:layout_below="@+id/photo"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="фото"/>
+
+        </RelativeLayout>
+
+
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:layout_weight="0.5"
-       >
-        <Button
+        android:layout_weight="0.5">
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="сделать запись"/>
+            android:layout_weight="1">
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:id="@+id/button" />
+            <ImageButton
+                android:id="@+id/rec"
+                android:background="@null"
+                android:layout_centerHorizontal="true"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/microphone"
+                />
+            <TextView
+                android:layout_below="@+id/rec"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="запись"/>
 
-        <Button
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1">
+            <ImageButton
+                android:background="@null"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/im5"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/owl"
+                />
+            <TextView
+                android:layout_below="@+id/im5"
+                android:layout_width="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_height="wrap_content"
+                android:text="файл"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageButton
+                android:id="@+id/im6"
+                android:background="@null"
+                android:layout_centerHorizontal="true"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/owl"
+                />
+            <TextView
+                android:layout_below="@+id/im6"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="файл"/>
+
+        </RelativeLayout>
+
+
+
     </LinearLayout>
-
 </LinearLayout>

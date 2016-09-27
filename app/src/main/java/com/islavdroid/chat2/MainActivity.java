@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,10 +21,17 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
+import com.mikepenz.materialdrawer.model.SectionDrawerItem;
+
 import java.util.ArrayList;
 import java.util.List;
 
-
+import br.liveo.model.HelpLiveo;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -42,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     RelativeLayout.LayoutParams layoutParamsForStickers;
     RelativeLayout.LayoutParams layoutParamsForAdding;
     private ImageButton btn_add;
+    private Drawer navigationDrawerRight;
 
     private List<Stickers> stickerList = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -51,6 +61,30 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        navigationDrawerRight = new DrawerBuilder().withActivity(this).withTranslucentStatusBar(false)
+                .withActionBarDrawerToggle(false).withToolbar(toolbar).
+                withActionBarDrawerToggleAnimated(true).withDrawerGravity(Gravity.RIGHT).withSavedInstance(savedInstanceState)
+        .withSelectedItem(-1).build();
+
+       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Добавить фон"));
+       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Информация о контакте"));
+
+       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Переименовать контакт"));
+       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Галерея"));
+        navigationDrawerRight.addItem( new DividerDrawerItem());
+       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Защитить контакт паролем"));
+       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Скрыть чат"));
+       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Удалить чат"));
+
+
+        //navigationDrawerLeft.addItem(new PrimaryDrawerItem().withName("Настройки").withIcon(R.drawable.ic_settings_black_24dp));
+
+
+
+
 //-----------------------стикеры---------------------
 
         recyclerView = (RecyclerView)findViewById(R.id.sticker_recycler_view);
