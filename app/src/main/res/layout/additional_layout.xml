@@ -18,7 +18,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:src="@drawable/documents"
+                android:src="@drawable/file"
+                android:tint="@color/colorPrimary"
                 />
             <TextView
                 android:layout_below="@+id/file"
@@ -39,7 +40,8 @@
                 android:id="@+id/galery"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:src="@drawable/gallery"
+                android:src="@drawable/gallery2"
+                android:tint="@color/colorPrimary"
                 />
             <TextView
                 android:layout_below="@+id/galery"
@@ -61,7 +63,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:src="@drawable/photocamera"
+                android:src="@drawable/camera"
+                android:tint="@color/colorPrimary"
                 />
             <TextView
                 android:layout_below="@+id/photo"
@@ -92,7 +95,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:src="@drawable/microphone"
+                android:src="@drawable/rec"
+                android:tint="@color/colorPrimary"
                 />
             <TextView
                 android:layout_below="@+id/rec"
@@ -113,14 +117,15 @@
                 android:id="@+id/im5"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:src="@drawable/owl"
+                android:src="@drawable/video"
+                android:tint="@color/colorPrimary"
                 />
             <TextView
                 android:layout_below="@+id/im5"
                 android:layout_width="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_height="wrap_content"
-                android:text="файл"/>
+                android:text="видео"/>
 
         </RelativeLayout>
 
@@ -135,14 +140,15 @@
                 android:layout_centerHorizontal="true"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:src="@drawable/owl"
+                android:src="@drawable/add_contact"
+                android:tint="@color/colorPrimary"
                 />
             <TextView
                 android:layout_below="@+id/im6"
                 android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="файл"/>
+                android:text="добавить контакт"/>
 
         </RelativeLayout>
 

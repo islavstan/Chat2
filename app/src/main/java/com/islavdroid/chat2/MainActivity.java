@@ -1,7 +1,15 @@
 package com.islavdroid.chat2;
 
 
+import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -17,6 +25,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -27,11 +36,14 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.liveo.model.HelpLiveo;
+
 
 
 public class MainActivity extends AppCompatActivity {
@@ -63,26 +75,49 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+//----------------------------drawer---------------------------------
         navigationDrawerRight = new DrawerBuilder().withActivity(this).withTranslucentStatusBar(false)
                 .withActionBarDrawerToggle(false).withToolbar(toolbar).
                 withActionBarDrawerToggleAnimated(true).withDrawerGravity(Gravity.RIGHT).withSavedInstance(savedInstanceState)
         .withSelectedItem(-1).build();
 
-       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Добавить фон"));
-       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Информация о контакте"));
 
-       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Переименовать контакт"));
-       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Галерея"));
+
+
+        navigationDrawerRight.isDrawerOpen();
+
+
+
+
+       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Сменить фон").withIcon(R.drawable.ic_wallpaper_black_24dp).withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+           @Override
+           public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+          // Toast.makeText(MainActivity.this,"iririr",Toast.LENGTH_SHORT).show();
+              /* Intent intent = new Intent();
+               intent.setType("image*//*");
+               intent.setAction(Intent.ACTION_GET_CONTENT);
+               startActivityForResult(Intent.createChooser(intent, "Select Picture"),0);*/
+
+               Intent galleryIntent = new  Intent(Intent.ACTION_PICK,
+                       android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+               startActivityForResult(galleryIntent, 002);
+               return false;
+           }
+       }));
+       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Информация о контакте").withIcon(R.drawable.ic_account_circle_black_24dp));
+
+       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Переименовать контакт").withIcon(R.drawable.ic_create_black_24dp));
+       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Галерея").withIcon(R.drawable.ic_insert_photo_black_24dp));
         navigationDrawerRight.addItem( new DividerDrawerItem());
-       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Защитить контакт паролем"));
-       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Скрыть чат"));
-       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Удалить чат"));
+       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Защитить контакт паролем").withIcon(R.drawable.ic_lock_black_24dp));
+       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Скрыть чат").withIcon(R.drawable.ic_visibility_off_black_24dp));
+       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Удалить чат").withIcon(R.drawable.ic_delete_black_24dp));
+
 
 
         //navigationDrawerLeft.addItem(new PrimaryDrawerItem().withName("Настройки").withIcon(R.drawable.ic_settings_black_24dp));
 
-
+//----------------------------drawer---------------------------------
 
 
 //-----------------------стикеры---------------------
@@ -192,6 +227,40 @@ stickersLayout=(RelativeLayout)findViewById(R.id.relSendMessage) ;
             }
         });
     }
+
+
+//------------------------смена фона-----------------------------
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // TODO Auto-generated method stub
+        if (requestCode == 002 && resultCode == Activity.RESULT_OK) {
+            Uri selectedImage = data.getData();
+            //Get the picked image uri
+            String picturePath = getRealPathFromURI(selectedImage);
+            RelativeLayout layout=(RelativeLayout)findViewById(R.id.all_display) ;
+
+           BitmapDrawable bmp= new BitmapDrawable(picturePath);
+          //  bmp.setGravity(Gravity.TOP);
+
+            layout.setBackground(bmp);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private String getRealPathFromURI(Uri contentUri) {
+        String[] proj = { MediaStore.Audio.Media.DATA };
+        Cursor cursor = managedQuery(contentUri, proj, null, null, null);
+        int column_index = cursor
+                .getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
+    }
+
+
+    //------------------------смена фона-----------------------------
+
+
+
 
     private void prepareUserData() {
         Stickers sticker = new Stickers(R.drawable.cat);
