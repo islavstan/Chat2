@@ -50,21 +50,14 @@
                 android:layout_below="@+id/txt_msg"
                 android:layout_alignStart="@+id/txt_msg"
                 android:text="28.09.16 18:09"
-                android:textColor="@android:color/white"
+                
+                android:drawableLeft="@drawable/closed_envelope_white"
+                android:drawablePadding="5dp"
+                android:textColor="#FAFAFA"
+                android:textStyle="italic"
 
+                android:textSize="12sp" />
 
-                android:textSize="11dp" />
-
-            <ImageView
-                android:id="@+id/mail"
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-               android:layout_toRightOf="@+id/date"
-              android:layout_marginStart="5dp"
-
-                android:layout_below="@+id/txt_msg"
-                android:tint="@android:color/white"
-                android:src="@drawable/ic_mail_outline_white_24dp" />
 
 
         </RelativeLayout>

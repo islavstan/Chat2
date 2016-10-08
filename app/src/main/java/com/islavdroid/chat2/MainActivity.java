@@ -2,6 +2,8 @@ package com.islavdroid.chat2;
 
 
 import android.app.Activity;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -21,6 +23,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -210,6 +213,7 @@ stickersLayout=(RelativeLayout)findViewById(R.id.relSendMessage) ;
         //set ListView adapter first
         adapter = new MessageAdapter(this, R.layout.chat_left, chatMessages);
         listView.setAdapter(adapter);
+
 
         //event for button SEND
         btnSend.setOnClickListener(new View.OnClickListener() {

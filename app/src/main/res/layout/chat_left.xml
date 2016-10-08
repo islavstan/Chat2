@@ -36,29 +36,24 @@
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
+                android:textColor="#212121"
                 android:textSize="16sp"
                 android:text="Привет)"/>
             <TextView
+                android:layout_below="@+id/txt_msg"
                 android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/txt_msg"
-                android:layout_toRightOf="@+id/mail"
-                android:paddingLeft="5dp"
-                android:text="28.09.16 18:09"
-                android:textColor="@android:color/darker_gray"
+                android:padding="5dp"
+                android:drawableRight="@drawable/closed_envelope"
+                android:drawablePadding="5dp"
+                android:drawableTint="#BDBDBD"
+                android:text="28.09.16  13:12"
+                android:textColor="#BDBDBD"
+                android:textSize="12sp"
+                android:textStyle="italic" />
 
-                android:textSize="11dp" />
 
-            <ImageView
-                android:id="@+id/mail"
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:layout_alignStart="@+id/txt_msg"
-                android:layout_below="@+id/txt_msg"
-android:tint="@android:color/darker_gray"
-                android:src="@drawable/ic_mail_outline_white_24dp" />
 
 
         </RelativeLayout>
