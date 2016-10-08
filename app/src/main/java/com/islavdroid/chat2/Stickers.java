@@ -1,8 +1,5 @@
 package com.islavdroid.chat2;
 
-/**
- * Created by islav on 26.09.2016.
- */
 
 public class Stickers {
     private int sticker;

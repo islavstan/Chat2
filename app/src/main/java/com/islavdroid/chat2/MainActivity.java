@@ -28,6 +28,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mikepenz.materialdrawer.Drawer;
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     RelativeLayout.LayoutParams layoutParamsForAdding;
     private ImageButton btn_add;
     private Drawer navigationDrawerRight;
-
+    TextView user_status;
     private List<Stickers> stickerList = new ArrayList<>();
     private RecyclerView recyclerView;
     private RecStickerAdapter mAdapter;
@@ -75,6 +76,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        user_status=(TextView) findViewById(R.id.user_status);
+        user_status.setSelected(true);
 //----------------------------drawer---------------------------------
         navigationDrawerRight = new DrawerBuilder().withActivity(this).withTranslucentStatusBar(false)
                 .withActionBarDrawerToggle(false).withToolbar(toolbar).
