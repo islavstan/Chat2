@@ -20,14 +20,19 @@
             android:layout_margin="4dp"
 
             android:src="@drawable/b"/>
-        <RelativeLayout
+
+
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toStartOf="@+id/user_image"
             android:layout_marginTop="10dp"
             android:id="@+id/bubble"
-
-            android:background="@drawable/ch23"
+            android:clickable="true"
+            android:padding="10dp"
+            android:orientation="vertical"
+            android:background="@drawable/right_bubble_select"
             >
 
             <TextView
@@ -35,9 +40,10 @@
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/white"
+                android:textColor="#FFFFFF"
                 android:textSize="16sp"
                 android:padding="4dp"
+
 
 
                 android:text="Привет)"
@@ -47,12 +53,10 @@
                 android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/txt_msg"
-                android:layout_alignStart="@+id/txt_msg"
+              android:layout_gravity="right"
                 android:text="28.09.16 18:09"
-                
-                android:drawableLeft="@drawable/closed_envelope_white"
-                android:drawablePadding="5dp"
+                android:layout_marginRight="6dp"
+
                 android:textColor="#FAFAFA"
                 android:textStyle="italic"
 
@@ -60,6 +64,7 @@
 
 
 
-        </RelativeLayout>
+
+        </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>

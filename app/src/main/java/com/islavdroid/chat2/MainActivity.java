@@ -210,6 +210,8 @@ stickersLayout=(RelativeLayout)findViewById(R.id.relSendMessage) ;
         btnSend = findViewById(R.id.btn_chat_send);
         editText = (EditText) findViewById(R.id.msg_type);
 
+
+
         //set ListView adapter first
         adapter = new MessageAdapter(this, R.layout.chat_left, chatMessages);
         listView.setAdapter(adapter);
@@ -306,5 +308,6 @@ stickersLayout=(RelativeLayout)findViewById(R.id.relSendMessage) ;
                 return super.onOptionsItemSelected(item);
         }
     }
+
 
 }
