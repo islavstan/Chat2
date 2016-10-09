@@ -21,34 +21,34 @@
 
             android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/user_name"
+            <TextView
+                android:id="@+id/user_name"
 
-            android:layout_width="wrap_content"
+                android:layout_width="wrap_content"
 
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
 
-            android:layout_height="wrap_content"
-            android:text="Людмила"/>
+                android:layout_height="wrap_content"
+                android:text="Людмила"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/user_status"
-            android:text="была в сети сегодня в 10:00 утра"
-            android:singleLine="true"
-            android:ellipsize="marquee"
-            android:marqueeRepeatLimit ="marquee_forever"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:scrollHorizontally="true"
-            android:textSize="12sp"
-            android:layout_below="@+id/user_name"
-           />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_status"
+                android:text="была в сети сегодня в 10:00 утра"
+                android:singleLine="true"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit ="marquee_forever"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:scrollHorizontally="true"
+                android:textSize="12sp"
+                android:layout_below="@+id/user_name"
+                />
         </RelativeLayout>
 
-        </android.support.v7.widget.Toolbar>
+    </android.support.v7.widget.Toolbar>
 
     <ListView
         android:id="@+id/list_msg"
@@ -56,13 +56,27 @@
         android:layout_height="match_parent"
         android:transcriptMode="alwaysScroll"
 
-        android:layout_above="@+id/divider"
+        android:layout_above="@+id/text_print"
         android:padding="0dip"
         android:divider="@null"
         android:dividerHeight="0dp"
         android:stackFromBottom="true"
 
-      />
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/text_print"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="5dp"
+        android:paddingLeft="1dp"
+android:padding="5dp"
+        android:textColor="#BDBDBD"
+        android:alpha="0.7"
+        android:background="@drawable/buble_write"
+        android:layout_above="@+id/divider"
+        android:text="печатает..."/>
 
     <RelativeLayout
         android:id="@+id/divider"
@@ -81,7 +95,7 @@
         android:paddingLeft="10dp"
 
         android:layout_alignParentBottom="true"
-       >
+        >
 
 
 
@@ -131,23 +145,23 @@
             android:background="@null"/>
     </RelativeLayout>
 
-<RelativeLayout
-    android:id="@+id/sticker_layout"
-    android:background="#FAFAFA"
-    android:layout_width="match_parent"
-    android:layout_height="230dp"
-
-    android:layout_alignParentBottom="true"
-    >
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/sticker_recycler_view"
+    <RelativeLayout
+        android:id="@+id/sticker_layout"
+        android:background="#FAFAFA"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="230dp"
+
+        android:layout_alignParentBottom="true"
+        >
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/sticker_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
 
 
-</RelativeLayout>
+    </RelativeLayout>
 
 
     <RelativeLayout

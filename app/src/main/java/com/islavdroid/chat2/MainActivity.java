@@ -19,6 +19,9 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,6 +37,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daimajia.swipe.SwipeLayout;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
@@ -71,8 +75,9 @@ public class MainActivity extends AppCompatActivity {
     TextView user_status;
     private List<Stickers> stickerList = new ArrayList<>();
     private RecyclerView recyclerView;
+ boolean typingStarted=false;
     private RecStickerAdapter mAdapter;
-
+    TextView textPrint;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,11 +88,26 @@ public class MainActivity extends AppCompatActivity {
 
         user_status=(TextView) findViewById(R.id.user_status);
         user_status.setSelected(true);
+
+
+
+
+
+
+
+
+
+
+
 //----------------------------drawer---------------------------------
+
+
+
+
         navigationDrawerRight = new DrawerBuilder().withActivity(this).withTranslucentStatusBar(false)
                 .withActionBarDrawerToggle(false).withToolbar(toolbar).
-                withActionBarDrawerToggleAnimated(true).withDrawerGravity(Gravity.RIGHT).withSavedInstance(savedInstanceState)
-        .withSelectedItem(-1).build();
+                        withActionBarDrawerToggleAnimated(true).withDrawerGravity(Gravity.RIGHT).withSavedInstance(savedInstanceState)
+                .withSelectedItem(-1).build();
 
 
 
@@ -97,7 +117,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Сменить фон").withIcon(R.drawable.ic_wallpaper_black_24dp).withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+
+       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Сменить фон").withIcon(R.drawable.ic_wallpaper_black_24dp).withSelectable(false).withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
            @Override
            public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
           // Toast.makeText(MainActivity.this,"iririr",Toast.LENGTH_SHORT).show();
@@ -112,14 +133,15 @@ public class MainActivity extends AppCompatActivity {
                return false;
            }
        }));
-       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Информация о контакте").withIcon(R.drawable.ic_account_circle_black_24dp));
+       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Информация о контакте").withIcon(R.drawable.ic_account_circle_black_24dp).withSelectable(false));
 
-       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Переименовать контакт").withIcon(R.drawable.ic_create_black_24dp));
-       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Галерея").withIcon(R.drawable.ic_insert_photo_black_24dp));
+       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Переименовать контакт").withIcon(R.drawable.ic_create_black_24dp).withSelectable(false));
+       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Галерея").withIcon(R.drawable.ic_insert_photo_black_24dp).withSelectable(false));
+       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Язык сообщений").withIcon(R.drawable.ic_translate_black_24dp).withSelectable(false));
         navigationDrawerRight.addItem( new DividerDrawerItem());
-       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Защитить контакт паролем").withIcon(R.drawable.ic_lock_black_24dp));
-       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Скрыть чат").withIcon(R.drawable.ic_visibility_off_black_24dp));
-       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Удалить чат").withIcon(R.drawable.ic_delete_black_24dp));
+       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Защитить контакт паролем").withIcon(R.drawable.ic_lock_black_24dp).withSelectable(false));
+       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Скрыть чат").withIcon(R.drawable.ic_visibility_off_black_24dp).withSelectable(false));
+       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Очистить чат").withIcon(R.drawable.ic_delete_black_24dp).withSelectable(false));
 
 
 
@@ -194,12 +216,15 @@ stickersLayout=(RelativeLayout)findViewById(R.id.relSendMessage) ;
                    stickerLayout.setVisibility(View.GONE);
                    layoutParamsForStickers.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,0);
                    layoutParamsForStickers.addRule(RelativeLayout.ABOVE,R.id.add_layout);
+                   btn_add.setImageResource(R.drawable.ic_clear_white_24dp);
+
                    additionalLayout.setVisibility(View.VISIBLE);
                }
                else {
                    layoutParamsForStickers.addRule(RelativeLayout.ABOVE,0);
                    layoutParamsForStickers.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
                    additionalLayout.setVisibility(View.GONE);
+                   btn_add.setImageResource(R.drawable.ic_add_black_24dp);
                }
            }
        });
@@ -215,6 +240,47 @@ stickersLayout=(RelativeLayout)findViewById(R.id.relSendMessage) ;
         //set ListView adapter first
         adapter = new MessageAdapter(this, R.layout.chat_left, chatMessages);
         listView.setAdapter(adapter);
+
+
+//-----------------------уведомление о печати-----------------------------
+         textPrint = (TextView)findViewById(R.id.text_print) ;
+        textPrint.setVisibility(View.GONE);
+    /*    if(!typingStarted){
+            textPrint.setVisibility(View.GONE);
+        }
+        else  textPrint.setVisibility(View.VISIBLE);*/
+
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!TextUtils.isEmpty(s.toString()) && s.toString().trim().length() == 1) {
+                    //Log.i(TAG, “typing started event…”);
+                    typingStarted = true;
+                    textPrint.setVisibility(View.VISIBLE);
+                    //send typing started status
+                } else if (s.toString().trim().length() == 0 && typingStarted) {
+                    //Log.i(TAG, “typing stopped event…”);
+                    typingStarted = false;
+                    textPrint.setVisibility(View.GONE);
+                    //send typing stopped status
+                }}
+
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+
+
+
+
+
 
 
         //event for button SEND
@@ -302,6 +368,7 @@ stickersLayout=(RelativeLayout)findViewById(R.id.relSendMessage) ;
         switch (id) {
             case R.id.more:
                 navigationDrawerRight.openDrawer();
+
                 return true;
 
             default:
