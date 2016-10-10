@@ -94,7 +94,7 @@ public class MessageAdapter extends ArrayAdapter<ChatMessage> {
 
 
 
-                    final String[] dialogFunctions ={"Копировать", "Удалить"};
+                    final String[] dialogFunctions ={"Копировать","Редактировать", "Удалить"};
                     builder.setItems(dialogFunctions, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

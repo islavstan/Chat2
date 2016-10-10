@@ -2,16 +2,20 @@ package com.islavdroid.chat2;
 
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -23,6 +27,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,24 +37,26 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.daimajia.swipe.SwipeLayout;
+
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
-import com.mikepenz.materialdrawer.model.SectionDrawerItem;
+
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+
 
 
 
@@ -78,6 +85,9 @@ public class MainActivity extends AppCompatActivity {
  boolean typingStarted=false;
     private RecStickerAdapter mAdapter;
     TextView textPrint;
+    Dialog translateDialog;
+    ImageView favorite;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,7 +99,17 @@ public class MainActivity extends AppCompatActivity {
         user_status=(TextView) findViewById(R.id.user_status);
         user_status.setSelected(true);
 
-
+           favorite =(ImageView)findViewById(R.id.favorite);
+        favorite.setVisibility(View.GONE);
+        favorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(favorite.getVisibility()==View.VISIBLE){
+                    favorite.setVisibility(View.GONE);
+                    Toast.makeText(MainActivity.this,"Доверительный чат отключен",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
 
 
@@ -135,13 +155,73 @@ public class MainActivity extends AppCompatActivity {
        }));
        navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Информация о контакте").withIcon(R.drawable.ic_account_circle_black_24dp).withSelectable(false));
 
-       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Переименовать контакт").withIcon(R.drawable.ic_create_black_24dp).withSelectable(false));
+       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Переименовать контакт").withIcon(R.drawable.ic_create_black_24dp).withSelectable(false).withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+           @Override
+           public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+               renameContact();
+               return true;
+           }
+       }));
        navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Галерея").withIcon(R.drawable.ic_insert_photo_black_24dp).withSelectable(false));
-       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Язык сообщений").withIcon(R.drawable.ic_translate_black_24dp).withSelectable(false));
+       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Язык сообщений").withIcon(R.drawable.ic_translate_black_24dp).withSelectable(false).withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+           @Override
+           public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+               navigationDrawerRight.closeDrawer();
+               AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+               View dialogTitle = (LinearLayout) getLayoutInflater()
+                       .inflate(R.layout.title_for_translate_dialog, null);
+
+
+
+
+               final String[] dialogFunctions ={"албанский","амхарский", "английский","арабский","армянский","белорусский",
+               "болгарский","мальтийский","албанский","албанский","албанский","албанский","албанский","албанский"};
+               builder.setItems(dialogFunctions, new DialogInterface.OnClickListener() {
+                   @Override
+                   public void onClick(DialogInterface dialog, int which) {
+
+                   }
+               });
+
+               builder.setCustomTitle(dialogTitle);
+               translateDialog = builder.create();
+               translateDialog.show();
+               return true;
+
+           }
+       }));
+
+
+
         navigationDrawerRight.addItem( new DividerDrawerItem());
-       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Защитить контакт паролем").withIcon(R.drawable.ic_lock_black_24dp).withSelectable(false));
-       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Скрыть чат").withIcon(R.drawable.ic_visibility_off_black_24dp).withSelectable(false));
-       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Очистить чат").withIcon(R.drawable.ic_delete_black_24dp).withSelectable(false));
+        navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Доверительный чат").withIcon(R.drawable.ic_favorite_black_24dp).withSelectable(false).withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+            @Override
+            public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                favorite.setVisibility(View.VISIBLE);
+                navigationDrawerRight.closeDrawer();
+                Toast.makeText(MainActivity.this,"Доверительный чат включен",Toast.LENGTH_SHORT).show();
+                return true;
+
+            }
+        }));
+       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Защитить контакт паролем").withIcon(R.drawable.ic_lock_black_24dp).withSelectable(false).withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+           @Override
+           public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+               showPasswordDialog();
+               return true;
+           }
+       }));
+       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Скрыть контакт").withIcon(R.drawable.ic_visibility_off_black_24dp).withSelectable(false));
+       navigationDrawerRight.addItem(new PrimaryDrawerItem().withName("Удалить чат").withIcon(R.drawable.ic_delete_black_24dp).withSelectable(false).withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+           @Override
+           public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+               deleteChat();
+
+
+
+               return true;
+           }
+       }));
 
 
 
@@ -245,10 +325,7 @@ stickersLayout=(RelativeLayout)findViewById(R.id.relSendMessage) ;
 //-----------------------уведомление о печати-----------------------------
          textPrint = (TextView)findViewById(R.id.text_print) ;
         textPrint.setVisibility(View.GONE);
-    /*    if(!typingStarted){
-            textPrint.setVisibility(View.GONE);
-        }
-        else  textPrint.setVisibility(View.VISIBLE);*/
+
 
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -276,7 +353,7 @@ stickersLayout=(RelativeLayout)findViewById(R.id.relSendMessage) ;
             }
         });
 
-
+//----------------------------------уведомление о печати-----------------------------
 
 
 
@@ -355,6 +432,133 @@ stickersLayout=(RelativeLayout)findViewById(R.id.relSendMessage) ;
         sticker = new Stickers(R.drawable.skelet);
         stickerList.add(sticker);
     }
+
+
+
+
+   //показать диалог для ввода пароля для контакта
+    protected void showPasswordDialog() {
+
+        // get prompts.xml view
+        LayoutInflater layoutInflater = LayoutInflater.from(MainActivity.this);
+        View promptView = layoutInflater.inflate(R.layout.dialog_for_password, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+        alertDialogBuilder.setView(promptView);
+
+        final EditText editText = (EditText) promptView.findViewById(R.id.password_edittext);
+        // setup a dialog window
+        alertDialogBuilder
+                .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                      //  resultText.setText("Hello, " + editText.getText());
+                    }
+                })
+                .setNegativeButton("Отмена",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+
+        AlertDialog alert = alertDialogBuilder.create();
+
+// Customize the button
+        navigationDrawerRight.closeDrawer();
+        alert.show();
+        Button button = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+        button.setTextColor(Color.BLACK);
+        //  button.setTypeface(Typeface.DEFAULT_BOLD);
+        Button button2 = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
+        button2.setTextColor(Color.BLACK);
+
+    }
+
+    //показать диалог для ввода пароля для контакта
+    protected void renameContact() {
+
+        // get prompts.xml view
+        LayoutInflater layoutInflater = LayoutInflater.from(MainActivity.this);
+        View promptView = layoutInflater.inflate(R.layout.dialog_for_rename, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+        alertDialogBuilder.setView(promptView);
+
+        final EditText editText = (EditText) promptView.findViewById(R.id.name_edittext);
+        // setup a dialog window
+        alertDialogBuilder
+                .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //  resultText.setText("Hello, " + editText.getText());
+                    }
+                })
+                .setNegativeButton("Отмена",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+
+        AlertDialog alert = alertDialogBuilder.create();
+
+// Customize the button
+        navigationDrawerRight.closeDrawer();
+        alert.show();
+        Button button = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+        button.setTextColor(Color.BLACK);
+        //  button.setTypeface(Typeface.DEFAULT_BOLD);
+        Button button2 = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
+        button2.setTextColor(Color.BLACK);
+
+    }
+
+
+
+
+
+    //показать диалог для очистки чата
+    protected void deleteChat() {
+
+        // get prompts.xml view
+        LayoutInflater layoutInflater = LayoutInflater.from(MainActivity.this);
+        View promptView = layoutInflater.inflate(R.layout.title_for_delete_chat, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+        alertDialogBuilder.setCustomTitle(promptView);
+        alertDialogBuilder.setMessage("Вы уверены, что хотите удалить все сообщения?");
+
+
+
+        // setup a dialog window
+        //alertDialogBuilder.setCancelable(false)
+        alertDialogBuilder  .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //  resultText.setText("Hello, " + editText.getText());
+                    }
+                })
+                .setNegativeButton("Отмена",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+
+        AlertDialog alert = alertDialogBuilder.create();
+
+// Customize the button
+        navigationDrawerRight.closeDrawer();
+        alert.show();
+        Button button = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+        button.setTextColor(Color.BLACK);
+        //  button.setTypeface(Typeface.DEFAULT_BOLD);
+        Button button2 = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
+        button2.setTextColor(Color.BLACK);
+
+    }
+
+
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
